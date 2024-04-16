@@ -1,0 +1,46 @@
+{
+  "name": "backend-homework",
+  "dockerComposeFile": [".docker/docker-compose.yml", ".docker/database.yml"],
+  "service": "backend_homework",
+  "workspaceFolder": "/home/volume",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "aaron-bond.better-comments",
+        "davidanson.vscode-markdownlint",
+        "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "gruntfuggly.todo-tree",
+        "irongeek.vscode-env",
+        "micnil.vscode-checkpoints",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.live-server",
+        "streetsidesoftware.code-spell-checker",
+        "threadheap.serverless-ide-vscode",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "editor.codeActionsOnSave": {
+          "source.fixAll.markdownlint": true,
+          "source.organizeImports": true
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "cSpell.files": ["**/*.md", "**/*.ts", "**/*.js"],
+        "cSpell.language": "en,es",
+        "cSpell.words": ["customlib", "dbname", "Dockerized", "uuidv4"],
+        "prettier.semi": false,
+        "prettier.singleQuote": true,
+        "git.autoRepositoryDetection": true,
+        "git.openRepositoryInParentFolders": "always",
+        "markdownlint.config": {
+          "default": true,
+          "MD024": false
+        },
+        "todo-tree.highlights.useColourScheme": true
+      }
+    }
+  },
+  "postCreateCommand": "chmod +x .docker/entrypoint.sh && .docker/entrypoint.sh"
+}

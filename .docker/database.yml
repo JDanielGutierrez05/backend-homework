@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongo:
+    # container_name: 'mongo'
+    image: mongo:latest
+    ports:
+     - 27017:27017
+    volumes:
+      - ..:/home/volume
+    working_dir: /home/volume
+    restart: unless-stopped
+    command:
+      - /bin/sh
+      - -c
+      - sleep infinity

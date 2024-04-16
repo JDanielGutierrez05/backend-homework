@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  backend_homework:
+    container_name: 'BackendHomework'
+    build:
+      context: .
+    volumes:
+      - ..:/home/volume
+      - backend-homework-bashhistory:/commandhistory
+    links:
+      - mongo:database
+    working_dir: /home/volume
+    restart: unless-stopped
+    command:
+      - /bin/sh
+      - -c
+      - sleep infinity
+
+volumes:
+  backend-homework-bashhistory:
