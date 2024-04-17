@@ -5,4 +5,11 @@ async function insert(user) {
   return await db.collection('users').insertOne(user)
 }
 
-module.exports = { insert }
+async function findByEmail(email) {
+  const db = await connect()
+  return await db.collection('users').findOne({
+    email: email,
+  })
+}
+
+module.exports = { findByEmail, insert }
