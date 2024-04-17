@@ -8,6 +8,6 @@ git config --global --add safe.directory /home/volume
 git lfs install --force
 git lfs pull
 
-# if [ ! -d "$HOME_PATH/node_modules"  ]; then
-#     npm install
-# fi
+if [ ! -d "$HOME_PATH/node_modules"  ]; then
+    npm install
+fi
