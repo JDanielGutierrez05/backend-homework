@@ -1,6 +1,6 @@
 'use strict'
 
-const { userSchema } = require('../../validations/schemas')
+const { userSchema } = require('../../util/validations/schemas')
 const { insert: saveUser, findByEmail } = require('../../repositories/users')
 const cloneDeep = require('lodash.clonedeep')
 
