@@ -10,4 +10,5 @@ module.exports = {
   restoreMocks: true,
   testEnvironment: 'jest-environment-node',
   verbose: true,
+  testTimeout: 5000,
 }
