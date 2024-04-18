@@ -1,1 +1,59 @@
-# backend-homework
+# README
+
+- [README](#readme)
+  - [Summary](#summary)
+    - [Development container](#development-container)
+  - [Testing](#testing)
+  - [Contribution guidelines](#contribution-guidelines)
+    - [Writing tests](#writing-tests)
+  - [Glossary](#glossary)
+    - [Environment variables: `.env`](#environment-variables-env)
+
+---
+
+## Summary
+
+`Backend Homework` this is a challenge.
+
+---
+
+### Development container
+
+This steps are tailored to work with Visual Studio Code, but you are free to chose a different IDE and make necessary adjustments to the setup.
+
+1. Install Visual Studio Code [here](https://code.visualstudio.com/)
+2. Install Docker desktop [here](https://code.visualstudio.com/)
+3. Install `ms-vscode-remote.remote-containers` extension. If you don't know how to do that follow this steps: <https://code.visualstudio.com/docs/editor/extension-gallery#_install-an-extension>
+4. Open this project's folder in Visual Studio Code. The extension will detect a container configuration and will ask you if you want to reopen the project un the container. Accept. (this build develop container and mongodb container to use it as storage)
+5. after container build finish, you can execute `npm run watch` in terminal to start the app
+
+---
+
+## Testing
+
+To run `jest` test suite, open a terminal and run `npm run test`
+
+---
+
+## Contribution guidelines
+
+### Writing tests
+
+- Unit tests are written using `jest`.
+- Unit tests are located at `tests/unit`. Only has the test files.
+- They use other files to simulate inputs, known as _mocks_, located `tests/mocks`
+
+## Glossary
+
+### Environment variables: `.env`
+
+The following structure is an example of the contents of the file:
+
+```env
+DB_HOST=database
+DB_DATABASE=test
+DB_USERNAME=root
+DB_PASSWORD=example
+TOKEN_SECRET=BackendHomeworkTest
+TOKEN_EXPIRATION_TIME=1200s
+```
