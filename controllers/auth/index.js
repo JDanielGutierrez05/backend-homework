@@ -1,21 +1,33 @@
 'use strict'
 
 const { findByEmail } = require('../../repositories/users')
-const { userSchema } = require('../../util/validations/schemas')
+const { userSchema } = require('../../utilities/joiSchemas')
+const { generateAccessToken } = require('../../utilities/jwt-tools')
+const bcrypt = require('bcrypt')
 
 async function login(req, res) {
   const validation = userSchema.validate(req.body)
 
   if (validation.error) {
-    return res.status(400).send(validation.error.details.pop().message)
+    return res
+      .status(400)
+      .json({ error: validation.error.details.pop().message })
   }
 
   const userExist = await findByEmail(validation.value.email)
   if (!userExist) {
-    return res.status(422).send("User doesn't exists.")
+    return res.status(422).json({ message: "User doesn't exists." })
   }
 
-  return res.status(200).send({ id: userExist._id, user: userExist.user })
+  if (!bcrypt.compareSync(req.body.password, userExist.password)) {
+    return res.status(400).json({ message: 'User or password incorrect' })
+  }
+
+  return res.status(200).json({
+    id: userExist._id,
+    user: userExist.user,
+    token: generateAccessToken(userExist),
+  })
 }
 
 module.exports = { login }
