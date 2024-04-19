@@ -24,8 +24,6 @@ async function login(req, res) {
   }
 
   return res.status(200).json({
-    id: userExist._id,
-    user: userExist.user,
     token: generateAccessToken(userExist),
   })
 }

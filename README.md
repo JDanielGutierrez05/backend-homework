@@ -8,6 +8,7 @@
     - [Writing tests](#writing-tests)
   - [Glossary](#glossary)
     - [Environment variables: `.env`](#environment-variables-env)
+    - [Petitions examples on Curl format](#petitions-examples-on-curl-format)
 
 ---
 
@@ -56,4 +57,43 @@ DB_USERNAME=root
 DB_PASSWORD=example
 TOKEN_SECRET=BackendHomeworkTest
 TOKEN_EXPIRATION_TIME=1200s
+```
+
+### Petitions examples on Curl format
+
+```env
+Create User
+
+curl --location 'http://localhost:3000/users' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "user": "",
+    "password": ""
+}'
+```
+
+```env
+Login
+
+curl --location 'http://localhost:3000/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "user": "",
+    "password": ""
+}'
+```
+
+```env
+Create Movie
+
+curl --location 'http://localhost:3000/movies' \
+--header 'Authorization: ' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "",
+    "year": "",
+    "director": "",
+    "company": "",
+    "private": false
+}'
 ```
