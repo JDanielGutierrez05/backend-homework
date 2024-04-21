@@ -1,7 +1,10 @@
 'use strict'
 
 const { movieSchema } = require('../../utilities/joiSchemas')
-const { insert: saveMovie } = require('../../repositories/movies')
+const {
+  findByFilters,
+  insert: saveMovie,
+} = require('../../repositories/movies')
 const { ObjectId } = require('mongodb')
 
 async function createMovie(req, res) {
@@ -14,7 +17,10 @@ async function createMovie(req, res) {
   }
 
   const userInfo = extractDataFromToken(req)
-  await saveMovie({ ...validation.value, createdBy: new ObjectId(userInfo.id) })
+  await saveMovie({
+    ...validation.value,
+    created_by: new ObjectId(userInfo.id),
+  })
   return res.status(200).json({ message: 'Movie saved succesfully' })
 }
 
@@ -23,4 +29,25 @@ function extractDataFromToken(req) {
   return JSON.parse(atob(token.split('.')[1]))
 }
 
-module.exports = { createMovie }
+async function getMovies(req, res) {
+  const userInfo = extractDataFromToken(req)
+  const result = await findByFilters(
+    buildFilters({ id: userInfo.id, ...req.query })
+  )
+  return res.status(200).json(result)
+}
+
+function buildFilters(queryParams) {
+  let filters = {}
+
+  if (queryParams.id) {
+    filters['created_by'] = new ObjectId(queryParams.id)
+  }
+
+  if (queryParams.private) {
+    filters['private'] = queryParams.private === 'true'
+  }
+  return filters
+}
+
+module.exports = { createMovie, getMovies }

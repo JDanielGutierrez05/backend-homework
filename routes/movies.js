@@ -2,7 +2,12 @@ var express = require('express')
 var router = express.Router()
 var moviesController = require('../controllers/movies/index')
 
-/* POST movies login. */
+/* GET movies list. */
+router.get('/', function (req, res, next) {
+  moviesController.getMovies(req, res)
+})
+
+/* POST movies creation. */
 router.post('/', function (req, res, next) {
   moviesController.createMovie(req, res)
 })
