@@ -4,15 +4,12 @@ const { userSchema } = require('../../utilities/joiSchemas')
 const { insert: saveUser, findByEmail } = require('../../repositories/users')
 const cloneDeep = require('lodash.clonedeep')
 const bcrypt = require('bcrypt')
+const { validationMessage } = require('../../utilities/utilities')
 
 async function create(req, res) {
   const validation = userSchema.validate(req.body)
 
-  if (validation.error) {
-    return res
-      .status(400)
-      .json({ error: validation.error.details.pop().message })
-  }
+  validationMessage(res, validation)
 
   const userExist = await findByEmail(validation.value.email)
   if (userExist) {

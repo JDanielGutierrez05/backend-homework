@@ -2,11 +2,22 @@ var express = require('express')
 var router = express.Router()
 var usersController = require('../controllers/users/index')
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource')
-})
-
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         in: body
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         in: body
+ *         required: true
+ *         type: string
+ */
 router.post('/', function (req, res, next) {
   usersController.create(req, res)
 })

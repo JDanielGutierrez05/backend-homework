@@ -1,17 +1,20 @@
-var createError = require('http-errors')
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var logger = require('morgan')
+let createError = require('http-errors')
+let express = require('express')
+let path = require('path')
+let cookieParser = require('cookie-parser')
+let logger = require('morgan')
+
+const swaggerUi = require('swagger-ui-express')
+const swaggerSpec = require('./swaggerConfig')
 
 const { verifyToken } = require('./utilities/jwt-tools')
 
-var indexRouter = require('./routes/index')
-var usersRouter = require('./routes/users')
-var authRouter = require('./routes/auth')
-var moviesRouter = require('./routes/movies')
+let indexRouter = require('./routes/index')
+let usersRouter = require('./routes/users')
+let authRouter = require('./routes/auth')
+let moviesRouter = require('./routes/movies')
 
-var app = express()
+let app = express()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
@@ -23,6 +26,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/login', authRouter)

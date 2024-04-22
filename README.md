@@ -4,6 +4,8 @@
   - [Summary](#summary)
     - [Development container](#development-container)
   - [Testing](#testing)
+  - [Swagger](#swagger)
+  - [Database seeding](#database-seeding)
   - [Contribution guidelines](#contribution-guidelines)
     - [Writing tests](#writing-tests)
   - [Glossary](#glossary)
@@ -26,15 +28,26 @@ This steps are tailored to work with Visual Studio Code, but you are free to cho
 2. Install Docker desktop [here](https://code.visualstudio.com/)
 3. Install `ms-vscode-remote.remote-containers` extension. If you don't know how to do that follow this steps: <https://code.visualstudio.com/docs/editor/extension-gallery#_install-an-extension>
 4. Open this project's folder in Visual Studio Code. The extension will detect a container configuration and will ask you if you want to reopen the project un the container. Accept. (this build develop container and mongodb container to use it as storage)
-5. after container build finish, you can execute `npm run watch` in terminal to start the app
+5. [run database seeders](#database-seeding)
+6. after container build finish, you can execute `npm run watch` in terminal to start the app.
 
 ---
 
 ## Testing
 
-To run `jest` test suite, open a terminal and run `npm run test`
+To run `jest` test suite, open a terminal and run `npm run test`.
 
 ---
+
+## Swagger
+
+To see swagger documentation, [run the app](#development-container) and open this route `/api-docs/` to see all the apis with its information.
+
+---
+
+## Database seeding
+
+- To run seeders, execute `database/seeders/seed.sh`, if the script show an error about permissions, execute this command `chmod +x database/seeders/seed.sh`.
 
 ## Contribution guidelines
 
@@ -96,4 +109,30 @@ curl --location 'http://localhost:3000/movies' \
     "company": "",
     "private": false
 }'
+```
+
+```env
+Read movies
+
+curl --location 'http://localhost:3000/movies' \
+--header 'Authorization: '
+```
+
+```env
+Update movies
+
+curl --location --request PATCH 'http://localhost:3000/movies/id' \
+--header 'Authorization: ' \
+--header 'Content-Type: application/json' \
+--data '{
+    "name": "",
+    "year": ""
+}'
+```
+
+```env
+Delete movies
+
+curl --location --request DELETE 'http://localhost:3000/movies/id' \
+--header 'Authorization: '
 ```

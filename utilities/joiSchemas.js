@@ -17,7 +17,7 @@ const userSchema = Joi.object().keys({
   ],
 })
 
-const movieSchema = Joi.object().keys({
+const movieCreationSchema = Joi.object().keys({
   name: Joi.string().min(5).required(),
   year: Joi.number().required(),
   director: Joi.string().min(5).required(),
@@ -25,4 +25,9 @@ const movieSchema = Joi.object().keys({
   private: Joi.boolean().required(),
 })
 
-module.exports = { movieSchema, userSchema }
+const movieUpdateSchema = Joi.object().keys({
+  name: Joi.string().min(5).required(),
+  year: Joi.number().required(),
+})
+
+module.exports = { movieCreationSchema, movieUpdateSchema, userSchema }
