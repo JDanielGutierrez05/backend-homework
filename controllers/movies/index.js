@@ -5,6 +5,7 @@ const {
   movieUpdateSchema,
 } = require('../../utilities/joiSchemas')
 const {
+  deleteM,
   findByFilters,
   insert: saveMovie,
   update,
@@ -75,4 +76,21 @@ async function updateMovie(req, res) {
   return res.status(200).json({ message: 'Movie updated successfully' })
 }
 
-module.exports = { createMovie, getMovies, updateMovie }
+async function deleteMovie(req, res) {
+  const userInfo = extractDataFromToken(req)
+  let movie = await findByFilters({ _id: new ObjectId(req.params.id) })
+
+  if (!movie.length) {
+    return res.status(406).json({ message: "The resource doesn't exists" })
+  }
+
+  movie = movie.pop()
+
+  if (userInfo.id != movie.created_by) {
+    return res.status(403).json({ message: 'You cannot edit this resource' })
+  }
+  await deleteM(req.params.id)
+  return res.status(200).json({ message: 'Resource deleted successfully' })
+}
+
+module.exports = { createMovie, deleteMovie, getMovies, updateMovie }

@@ -17,4 +17,9 @@ router.patch('/:id', function (req, res, next) {
   moviesController.updateMovie(req, res)
 })
 
+/* DELETE movies soft delete. */
+router.delete('/:id', function (req, res, next) {
+  moviesController.deleteMovie(req, res)
+})
+
 module.exports = router

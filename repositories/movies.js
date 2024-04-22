@@ -29,4 +29,18 @@ async function update(id, data) {
   )
 }
 
-module.exports = { findByFilters, insert, update }
+async function deleteM(id) {
+  const db = await connect()
+  return await db.collection('movies').findOneAndUpdate(
+    {
+      _id: new ObjectId(id),
+    },
+    {
+      $set: {
+        deleted_at: new Date(),
+      },
+    }
+  )
+}
+
+module.exports = { deleteM, findByFilters, insert, update }
