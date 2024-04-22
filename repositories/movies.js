@@ -1,4 +1,5 @@
 const { connect } = require('./Connection.js')
+const { ObjectId } = require('mongodb')
 
 async function insert(movie) {
   const db = await connect()
@@ -10,4 +11,22 @@ async function findByFilters(filters) {
   return await db.collection('movies').find(filters).toArray()
 }
 
-module.exports = { findByFilters, insert }
+async function update(id, data) {
+  const db = await connect()
+  return await db.collection('movies').findOneAndUpdate(
+    {
+      _id: new ObjectId(id),
+    },
+    {
+      $set: {
+        ...data,
+        updated_at: new Date(),
+      },
+    },
+    {
+      returnDocument: 'after',
+    }
+  )
+}
+
+module.exports = { findByFilters, insert, update }

@@ -12,4 +12,9 @@ router.post('/', function (req, res, next) {
   moviesController.createMovie(req, res)
 })
 
+/* PATCH movies update. */
+router.patch('/:id', function (req, res, next) {
+  moviesController.updateMovie(req, res)
+})
+
 module.exports = router
