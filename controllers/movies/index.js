@@ -43,7 +43,7 @@ async function createMovie(req, res) {
     created_at: new Date(),
     updated_at: new Date(),
   })
-  return res.status(200).json({ message: 'Movie saved succesfully' })
+  return res.status(200).json({ message: 'Movie saved successfully' })
 }
 
 async function getMovies(req, res) {
