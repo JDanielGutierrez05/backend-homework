@@ -17,7 +17,7 @@ const {
 } = require('../../utilities/utilities')
 
 function buildFilters(queryParams) {
-  let filters = {}
+  let filters = { deleted_at: { $exists: false } }
 
   if (queryParams.private) {
     if (queryParams.private === 'true') {
@@ -29,7 +29,6 @@ function buildFilters(queryParams) {
   } else {
     filters['created_by'] = new ObjectId(queryParams.id)
   }
-  filters['deleted_at'] = { $exists: false }
   return filters
 }
 

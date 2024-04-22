@@ -1,0 +1,12 @@
+[
+  {
+    "_id": {
+      "$oid": "6621b7b5553409bf15c2d3e7"
+    },
+    "user": "test@test.com",
+    "password": "$2b$10$6hBU4ah6P9I0TMrUX.8qlOWKB.qSpdSjT0Kd9BAwVna8pbHzeDrma",
+    "created_at": {
+      "$date": "2024-04-19T00:15:49.347Z"
+    }
+  }
+]

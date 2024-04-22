@@ -1,0 +1,11 @@
+{
+  "name": "backend-homework-seeders",
+  "version": "1.0",
+  "main": "index.js",
+  "devDependencies": {
+    "mongo-seeding": "^3.7.2",
+    "mongodb": "^6.5.0"
+  },
+  "author": "Juan Daniel Gutierrez Botero",
+  "license": "ISC"
+}
