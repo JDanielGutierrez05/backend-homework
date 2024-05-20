@@ -29,7 +29,7 @@ async function update(id, data) {
   )
 }
 
-async function deleteM(id) {
+async function deleteOne(id) {
   const db = await connect()
   return await db.collection('movies').findOneAndUpdate(
     {
@@ -43,4 +43,4 @@ async function deleteM(id) {
   )
 }
 
-module.exports = { deleteM, findByFilters, insert, update }
+module.exports = { deleteOne, findByFilters, insert, update }

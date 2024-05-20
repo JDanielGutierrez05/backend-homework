@@ -1,6 +1,10 @@
 var express = require('express')
 var router = express.Router()
-var authController = require('../controllers/auth/index')
+
+const { findByEmail } = require('../repositories/users')
+const { userSchema } = require('../validation/schemas')
+const { generateAccessToken } = require('../utilities/jwt-tools')
+const bcrypt = require('bcrypt')
 
 /**
  * @swagger
@@ -18,8 +22,28 @@ var authController = require('../controllers/auth/index')
  *         required: true
  *         type: string
  */
-router.post('/', function (req, res, next) {
-  authController.login(req, res)
+router.post('/', async function (req, res, next) {
+  const validation = userSchema.validate(req.body)
+
+  // TODO: change to general error handler middleware
+  if (validation.error) {
+    return res
+      .status(400)
+      .json({ error: validation.error.details.pop().message })
+  }
+
+  const userExist = await findByEmail(validation.value.email)
+  if (!userExist) {
+    return res.status(422).json({ message: "User doesn't exists." })
+  }
+
+  if (!bcrypt.compareSync(req.body.password, userExist.password)) {
+    return res.status(400).json({ message: 'User or password incorrect' })
+  }
+
+  return res.status(200).json({
+    token: generateAccessToken(userExist),
+  })
 })
 
 module.exports = router

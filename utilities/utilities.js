@@ -1,8 +1,3 @@
-function extractDataFromToken(req) {
-  const token = req.header('Authorization')
-  return JSON.parse(atob(token.split('.')[1]))
-}
-
 function validationMessage(res, validation) {
   if (validation.error) {
     return res
@@ -11,4 +6,4 @@ function validationMessage(res, validation) {
   }
 }
 
-module.exports = { extractDataFromToken, validationMessage }
+module.exports = { validationMessage }
