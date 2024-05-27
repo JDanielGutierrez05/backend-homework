@@ -1,12 +1,12 @@
 let express = require('express')
 let logger = require('morgan')
 
+const { extractDataFromToken } = require('./middleware/request')
+
 const swaggerUi = require('swagger-ui-express')
 const swaggerSpec = require('./swaggerConfig')
-const { errorHandler } = require('./middleware/errorHandler')
-
-const { verifyToken } = require('./middleware/auth')
-const { extractDataFromToken } = require('./middleware/request')
+const errorHandler = require('./middleware/error')
+const verifyToken = require('./middleware/auth')
 
 let usersRouter = require('./routes/users')
 let authRouter = require('./routes/auth')

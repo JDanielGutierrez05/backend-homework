@@ -1,16 +1,17 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
+const UnauthorizedError = require('../errors/unauthorized')
 
 function verifyToken(req, res, next) {
   const token = req.header('Authorization')
-  if (!token) return res.status(401).json({ error: 'Access denied' })
+  if (!token) throw new UnauthorizedError('Invalid Token')
   try {
     jwt.verify(token, process.env.TOKEN_SECRET)
     next()
   } catch (error) {
-    res.status(400).json({ error: 'Invalid Token' })
+    next(error)
   }
 }
 
-module.exports = { verifyToken }
+module.exports = verifyToken

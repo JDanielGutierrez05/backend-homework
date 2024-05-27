@@ -5,7 +5,7 @@ const { findByEmail } = require('../repositories/users')
 const { userSchema } = require('../validation/schemas')
 const { generateAccessToken } = require('../utilities/jwt-tools')
 const bcrypt = require('bcrypt')
-const { ValidationError } = require('../middleware/errorHandler')
+const ValidationError = require('../errors/validation')
 
 /**
  * @swagger
