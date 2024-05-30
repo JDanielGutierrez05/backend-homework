@@ -1,7 +1,7 @@
 'use strict'
 
 const jwt = require('jsonwebtoken')
-const UnauthorizedError = require('../errors/unauthorized')
+const { UnauthorizedError } = require('../errors/exceptions')
 
 function verifyToken(req, res, next) {
   const token = req.header('Authorization')

@@ -2,8 +2,7 @@ var express = require('express')
 var router = express.Router()
 
 const { insert: saveUser, findByEmail } = require('../repositories/users')
-const { validationMessage } = require('../utilities/utilities')
-const { userSchema } = require('../validation/schemas')
+const { DuplicatedError } = require('../errors/exceptions')
 const bcrypt = require('bcrypt')
 
 /**
@@ -23,20 +22,22 @@ const bcrypt = require('bcrypt')
  *         type: string
  */
 router.post('/', async function (req, res, next) {
-  const validation = userSchema.validate(req.body)
+  try {
+    const userExist = await findByEmail(req.body.user)
 
-  validationMessage(res, validation)
+    if (userExist) {
+      throw new DuplicatedError('User already exists.')
+    }
 
-  const userExist = await findByEmail(validation.value.email)
-  if (userExist) {
-    return res.status(422).json({ message: 'User already exists.' })
+    let userToSave = createUser(req.body)
+    const savedUser = await saveUser(userToSave)
+
+    return res
+      .status(201)
+      .json({ id: savedUser.insertedId, user: userToSave.user })
+  } catch (error) {
+    next(error)
   }
-
-  let userToSave = createUser(validation.value)
-  const savedUser = await saveUser(userToSave)
-  return res
-    .status(201)
-    .json({ id: savedUser.insertedId, user: userToSave.user })
 })
 
 function createUser(user) {

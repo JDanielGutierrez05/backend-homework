@@ -1,7 +1,7 @@
 const Joi = require('joi')
 
 const userSchema = Joi.object().keys({
-  user: Joi.string().email(),
+  user: Joi.string().email().required(),
   password: [
     Joi.string()
       .min(10)

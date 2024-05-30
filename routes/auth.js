@@ -2,10 +2,11 @@ var express = require('express')
 var router = express.Router()
 
 const { findByEmail } = require('../repositories/users')
-const { userSchema } = require('../validation/schemas')
 const { generateAccessToken } = require('../utilities/jwt-tools')
+const { userSchema } = require('../validation/schemas')
+const { UnauthorizedError } = require('../errors/exceptions')
+
 const bcrypt = require('bcrypt')
-const ValidationError = require('../errors/validation')
 
 /**
  * @swagger
@@ -23,22 +24,22 @@ const ValidationError = require('../errors/validation')
  *         required: true
  *         type: string
  */
-router.post('/', async function (req, res, next) {
+router.post('/login', async function (req, res, next) {
   try {
     const validation = userSchema.validate(req.body)
 
-    // TODO: change to general error handler middleware
     if (validation.error) {
-      throw new ValidationError(validation.error.details.pop().message)
+      throw new UnauthorizedError('Invalid credentials.')
     }
 
-    const userExist = await findByEmail(validation.value.email)
+    const userExist = await findByEmail(req.body.user)
+
     if (!userExist) {
-      return res.status(422).json({ message: "User doesn't exists." })
+      throw new UnauthorizedError('Invalid credentials.')
     }
 
     if (!bcrypt.compareSync(req.body.password, userExist.password)) {
-      return res.status(400).json({ message: 'User or password incorrect' })
+      throw new UnauthorizedError('Invalid credentials.')
     }
 
     return res.status(200).json({

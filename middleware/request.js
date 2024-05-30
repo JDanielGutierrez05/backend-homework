@@ -4,4 +4,4 @@ function extractDataFromToken(req, res, next) {
   next()
 }
 
-module.exports = { extractDataFromToken }
+module.exports = extractDataFromToken

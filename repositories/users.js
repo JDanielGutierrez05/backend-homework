@@ -8,7 +8,7 @@ async function insert(user) {
 async function findByEmail(email) {
   const db = await connect()
   return await db.collection('users').findOne({
-    email: email,
+    user: email,
   })
 }
 

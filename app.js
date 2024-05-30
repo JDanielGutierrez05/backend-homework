@@ -1,11 +1,13 @@
 let express = require('express')
 let logger = require('morgan')
 
-const { extractDataFromToken } = require('./middleware/request')
+const { userSchema } = require('./validation/schemas')
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerSpec = require('./swaggerConfig')
 const errorHandler = require('./middleware/error')
+const extractDataFromToken = require('./middleware/request')
+const validateFields = require('./middleware/validation')
 const verifyToken = require('./middleware/auth')
 
 let usersRouter = require('./routes/users')
@@ -19,13 +21,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-app.use('/users', usersRouter)
-app.use('/login', authRouter)
-
-// TODO: add other middleware to extract user info and inject to the request
+app.use('/users', validateFields(userSchema), usersRouter)
+app.use('/auth', authRouter)
 app.use('/movies', [verifyToken, extractDataFromToken], moviesRouter)
 
-// error handler
 app.use(errorHandler)
 
 module.exports = app
