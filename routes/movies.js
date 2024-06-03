@@ -11,7 +11,7 @@ const {
   movieUpdateSchema,
 } = require('../validation/schemas')
 const { ObjectId } = require('mongodb')
-const { validationMessage } = require('../utilities/utilities')
+const { ValidationError } = require('../errors/exceptions')
 
 /**
  * @swagger
@@ -92,7 +92,11 @@ router.get('/', async function (req, res, next) {
  */
 router.post('/', async function (req, res, next) {
   const validation = movieCreationSchema.validate(req.body)
-  validationMessage(res, validation)
+  if (validation.error) {
+    throw new ValidationError(
+      validation.error.details.map((error) => error.message)
+    )
+  }
 
   await saveMovie({
     ...validation.value,
@@ -141,7 +145,11 @@ router.post('/', async function (req, res, next) {
  */
 router.patch('/:id', async function (req, res, next) {
   const validation = movieUpdateSchema.validate(req.body)
-  validationMessage(res, validation)
+  if (validation.error) {
+    throw new ValidationError(
+      validation.error.details.map((error) => error.message)
+    )
+  }
 
   let movie = await findByFilters({ _id: new ObjectId(req.params.id) })
 
